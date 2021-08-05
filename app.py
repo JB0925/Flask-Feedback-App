@@ -13,3 +13,6 @@ connect_db(app)
 db.create_all()
 
 
+@app.route('/')
+def home():
+    return render_template('base.html')
