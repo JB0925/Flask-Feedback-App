@@ -16,6 +16,7 @@ body {
     padding: 0;
     background-color: #0c162e;
     overflow-x: hidden;
+    padding-bottom: 30px;
 }
 
 header {
@@ -62,3 +63,66 @@ nav button {
     border: .5px solid #255c99;
 }
 
+nav i {
+    color: #0c162e;
+    font-size: 0rem;
+}
+
+.hide {
+    display: none;
+}
+
+.pulldown {
+    height: 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    transition: height 1s ease-in-out;
+    margin-left: 8%;
+}
+
+.pulldown a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.5rem;
+    background-color: #0c162e;
+}
+
+.pulldown h2 {
+    display: none;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.pulldown button {
+    display: none;
+    opacity: 0;
+    padding: 12px 10px;
+    width: 160px;
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: #255c99;
+    color: white;
+    border: .5px solid #255c99;
+    transition: opacity 1s ease-in-out;
+}
+
+
+@media screen and (max-width : 900px) {
+    nav ul {
+        display: none;
+    }
+
+    nav i {
+        display: visible;
+        color: white;
+        font-size: 2rem;
+        margin-left: auto;
+        margin-right: 30px;
+    }
+
+    .hide {
+        display: visible;
+    }
+}
