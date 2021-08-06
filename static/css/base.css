@@ -14,4 +14,51 @@ body {
     font-family: 'DM Sans', sans-serif;
     margin: 0;
     padding: 0;
+    background-color: #0c162e;
+    overflow-x: hidden;
 }
+
+header {
+    border-bottom: .001rem solid gray;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    color: white;
+}
+
+nav h1 {
+    margin-left: 8%;
+    font-size: 2rem;
+}
+
+nav ul {
+    display: flex;
+    margin-left: auto;
+    margin-right: 8%;
+    align-items: center;
+}
+
+nav li {
+    list-style: none;
+    margin-right: 35px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.3rem;
+}
+
+nav button {
+    padding: 12px 10px;
+    width: 160px;
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: #255c99;
+    color: white;
+    border: .5px solid #255c99;
+}
+
