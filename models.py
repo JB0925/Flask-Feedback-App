@@ -22,4 +22,15 @@ class User(db.Model):
     last_name = db.Column(db.String(30), nullable=False)
 
 
+    @classmethod
+    def register(cls, username, password, email, first, last):
+        hashed_pw = bcrypt.generate_password_hash(password).decode("utf-8")
+        return cls(username=username, password=hashed_pw, email=email, first_name=first, last_name=last)
     
+
+    @classmethod
+    def authenticate(cls, username, password):
+        user = User.query.filter_by(username=username).first()
+        if user and bcrypt.check_password_hash(user.password, password):
+            return user
+        return False
