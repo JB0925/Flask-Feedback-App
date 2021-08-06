@@ -7,6 +7,23 @@ class Navbar {
         this.pullDownButton = document.querySelector('.pulldown button');
         this.toggleMenu = false;
         this.handleClick = this.handleClick.bind(this);
+        this.handleScreenWidth = this.handleScreenWidth.bind(this);
+    }
+
+    handleScreenWidth() {
+        if (window.innerWidth >= 900) {
+            setTimeout(() => {
+                this.pullDown.style.height = "0px";
+                this.pullDown.style.marginBottom = "0%";
+                this.pullDownButton.style.display = "none";
+                this.pullDownButton.style.opacity = "1"
+                for (let p of this.pullDownH2) {
+                    p.style.display = "none"
+                    p.style.opacity = "1"
+                }
+            },100);
+            this.toggleMenu = false;
+        }
     }
 
     handleClick(evt) {
@@ -42,3 +59,4 @@ class Navbar {
 
 n = new Navbar()
 n.burgerMenu.addEventListener('click', n.handleClick)
+window.addEventListener('resize', n.handleScreenWidth)

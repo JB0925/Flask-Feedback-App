@@ -13,6 +13,16 @@ connect_db(app)
 db.create_all()
 
 
-@app.route('/')
+@app.route('/home')
 def home():
     return render_template('home.html')
+
+
+@app.route('/')
+def redirect_to_register():
+    return redirect(url_for('register'))
+
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    pass
