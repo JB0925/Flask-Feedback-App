@@ -1,5 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
+from sqlalchemy.orm import backref
 
 db = SQLAlchemy()
 bcrypt = Bcrypt()
@@ -21,6 +22,8 @@ class User(db.Model):
     first_name = db.Column(db.String(30), nullable=False)
     last_name = db.Column(db.String(30), nullable=False)
 
+    feeback = db.relationship('Feedback', backref="user")
+
 
     @classmethod
     def register(cls, username, password, email, first, last):
@@ -34,3 +37,13 @@ class User(db.Model):
         if user and bcrypt.check_password_hash(user.password, password):
             return user
         return False
+
+
+class Feedback(db.Model):
+
+    __tablename__ = "feedback"
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    title = db.Column(db.String(100), nullable=False)
+    content = db.Column(db.String, nullable=False)
+    username = db.Column(db.String, db.ForeignKey('users.username'), nullable=False)

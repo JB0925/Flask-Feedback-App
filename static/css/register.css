@@ -1,0 +1,46 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+}
+
+.container h2 {
+    color: white;
+}
+
+.btn-register {
+    padding: 10px 20px;
+    width: 160px;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    background-color: #255c99;
+    color: white;
+    border: .5px solid #255c99;
+    margin-top: 10px;
+}
+
+input {
+    border-radius: 5px;
+    width: 200px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+label {
+    font-size: 1rem;
+    margin-bottom: 10px;
+    color: hsla(0, 0%, 100%, 0.8);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    border: 15px solid white;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 25px;
+    width: 300px;
+}
+
