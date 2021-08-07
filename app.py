@@ -1,7 +1,7 @@
 from flask import Flask, redirect, session, request, url_for, render_template
 from decouple import config
 
-from models import db, connect_db, User
+from models import db, connect_db, User, Feedback
 
 
 app = Flask(__name__)
@@ -42,9 +42,12 @@ def register():
 
 @app.route('/users/<username>')
 def secret(username):
+    user = User.query.filter_by(username=username).first()
+    if not user:
+        return redirect(url_for('home'))
+
     if "username" in session and session["username"] == username:
-        user = User.query.filter_by(username=username).first()
-        return render_template('secret.html', user=user)
+        return render_template('secret.html', user=user, feedback=user.feedback)
     return redirect(url_for("register"))
 
 
@@ -69,3 +72,67 @@ def login():
 def logout():
     session.pop("username")
     return redirect(url_for('register'))
+
+
+@app.route('/users/<username>/delete')
+def delete_user(username):
+    if "username" not in session:
+        return redirect(url_for('home'))
+    
+    user = User.query.filter_by(username=username).first()
+    if user and session['username'] == username:
+        session.pop("username")
+        db.session.delete(user)
+        db.session.commit()
+    session.pop("username")
+    return redirect(url_for('register'))
+
+
+@app.route('/users/<username>/feedback/add', methods=['GET', 'POST'])
+def add_feedback(username):
+    if "username" not in session:
+        return redirect(url_for('home'))
+
+    if request.method == "GET":
+        return render_template('add_feedback.html')
+    
+    if username == session["username"]:
+        title = request.form['title']
+        content = request.form['content']
+        user = User.query.filter_by(username=username).first()
+        if user:
+            new_feedback = Feedback(title=title, content=content, username=username)
+            db.session.add(new_feedback)
+            db.session.commit()
+    return redirect(url_for('secret', username=username))
+    
+
+@app.route('/feedback/<feedback_id>/update', methods=['GET', 'POST'])
+def update_feedback(feedback_id):
+    if "username" not in session:
+        return redirect(url_for('home'))
+
+    if request.method == "GET":
+        return render_template('update_feedback.html')
+    
+    feedback = Feedback.query.get(feedback_id)
+    if session["username"] == feedback.username:
+        feedback.title = request.form.get("title", feedback.title)
+        feedback.content = request.form.get("content", feedback.content)
+        db.session.add(feedback)
+        db.session.commit()
+        return redirect(url_for('secret', username=feedback.username))
+    return redirect(url_for('home'))
+
+
+@app.route('/feedback/<feedback_id>/delete')
+def delete_feedback(feedback_id):
+    if "username" not in session:
+        return redirect(url_for('home'))
+    
+    feedback = Feedback.query.get(feedback_id)
+    if session["username"] == feedback.username:
+        db.session.delete(feedback)
+        db.session.commit()
+        return redirect(url_for('secret', username=session["username"]))
+    return redirect(url_for('home'))

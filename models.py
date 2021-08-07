@@ -22,7 +22,7 @@ class User(db.Model):
     first_name = db.Column(db.String(30), nullable=False)
     last_name = db.Column(db.String(30), nullable=False)
 
-    feeback = db.relationship('Feedback', backref="user")
+    feedback = db.relationship('Feedback', backref="user", cascade="all, delete-orphan")
 
 
     @classmethod
@@ -46,4 +46,4 @@ class Feedback(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String(100), nullable=False)
     content = db.Column(db.String, nullable=False)
-    username = db.Column(db.String, db.ForeignKey('users.username'), nullable=False)
+    username = db.Column(db.String, db.ForeignKey('users.username', ondelete="cascade"), nullable=False)

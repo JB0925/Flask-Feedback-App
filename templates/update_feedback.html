@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block head %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" 
+          integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" 
+          crossorigin="anonymous"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
+    <title>Home</title>
+{% endblock %}
+{% block content %}
+<div class="container">
+    <h2>Update Your Feedback</h2>
+    <form class="form-textarea" action="{{ url_for(request.endpoint, ** request.view_args) }}" method="POST">
+        <label for="title">Title</label>
+        <input class="input-textarea" type="text" name="title" id="title" placeholder="Enter Your Title">
+        <label for="content">Content</label>
+        <textarea name="content" id="content" cols="30" rows="10" placeholder="Enter Your Feedback Here"></textarea>
+        <button type="submit" class="btn-register">Register Now</button>
+    </form>
+{% endblock %}
