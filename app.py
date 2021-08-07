@@ -70,7 +70,10 @@ def login():
 
 @app.route('/logout')
 def logout():
-    session.pop("username")
+    try:
+        session.pop("username")
+    except KeyError:
+        pass
     return redirect(url_for('register'))
 
 
