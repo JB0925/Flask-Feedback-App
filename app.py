@@ -15,17 +15,23 @@ db.create_all()
 
 @app.route('/home')
 def home():
+    """Renders a nice home page."""
     return render_template('home.html')
 
 
 @app.route('/')
 def redirect_to_register():
+    """Root route that redirects to the register page."""
     return redirect(url_for('register'))
 
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    """Page that allows a new user to sign up for
+       an account."""
     if request.method == 'GET':
+        if "username" in session:
+            return redirect(url_for('secret', username=session["username"]))
         return render_template('register.html')
     
     username = request.form['username']
@@ -42,6 +48,7 @@ def register():
 
 @app.route('/users/<username>')
 def secret(username):
+    """The page that returns a user's profile."""
     user = User.query.filter_by(username=username).first()
     if not user:
         return redirect(url_for('home'))
@@ -53,6 +60,9 @@ def secret(username):
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    """Allows a user to login to their account. If
+       they are already logged in, it will redirect to their user
+       profile."""
     if request.method == "GET":
         if "username" in session:
             user = User.query.filter_by(username=session["username"]).first()
@@ -70,6 +80,9 @@ def login():
 
 @app.route('/logout')
 def logout():
+    """A method that does not render a template, but 
+       pops the username from the session. and redirects
+       to the register page."""
     try:
         session.pop("username")
     except KeyError:
@@ -79,6 +92,8 @@ def logout():
 
 @app.route('/users/<username>/delete')
 def delete_user(username):
+    """Deletes a user's profile from the database, 
+       if the user exists and is logged in."""
     if "username" not in session:
         return redirect(url_for('home'))
     
@@ -93,6 +108,7 @@ def delete_user(username):
 
 @app.route('/users/<username>/feedback/add', methods=['GET', 'POST'])
 def add_feedback(username):
+    """Allows a logged in user to add feedback about the app."""
     if "username" not in session:
         return redirect(url_for('home'))
 
@@ -112,6 +128,8 @@ def add_feedback(username):
 
 @app.route('/feedback/<feedback_id>/update', methods=['GET', 'POST'])
 def update_feedback(feedback_id):
+    """Allows a logged in user to update the feedback, if they are
+       the one who created the feedback."""
     if "username" not in session:
         return redirect(url_for('home'))
 
@@ -130,6 +148,8 @@ def update_feedback(feedback_id):
 
 @app.route('/feedback/<feedback_id>/delete')
 def delete_feedback(feedback_id):
+    """Allows a user to delete feedback, if they
+       are the one who created the feedback."""
     if "username" not in session:
         return redirect(url_for('home'))
     
